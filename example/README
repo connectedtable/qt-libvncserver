@@ -1,0 +1,11 @@
+-- Example application
+
+This is just a small example application that also can be used to find drawing
+problems on certain VNC-clients.
+
+-- Compile & test run
+
+* qmake (on an embedded compilation of Qt)
+* make
+* QWS_DEPTH=16 QWS_SIZE=1024x768 ./example -qwt -display libvnc:0
+
