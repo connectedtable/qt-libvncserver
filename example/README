@@ -7,5 +7,5 @@ problems on certain VNC-clients.
 
 * qmake (on an embedded compilation of Qt)
 * make
-* QWS_DEPTH=16 QWS_SIZE=1024x768 ./example -qwt -display libvnc:0
+* QWS_DEPTH=16 QWS_SIZE=1024x768 ./example -qws -display libvnc:0
 
