@@ -15,6 +15,7 @@ int main( int argc, char** argv ) {
     QGraphicsView view( &scene );
     view.setFixedSize( 1024, 768 );
     view.showFullScreen();
+    view.adjustSize();
 
     BuyDialog dialog;
     dialog.setScene( &scene );

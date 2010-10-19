@@ -5,6 +5,7 @@
 #ifndef BUYDIALOG_H
 #define BUYDIALOG_H
 
+class QFrame;
 #include <QGraphicsProxyWidget>
 #include <QGraphicsScene>
 #include <QTimer>
@@ -28,7 +29,9 @@ private:
 
     QWidget* m_dialog;
     QWidget* m_dialogWidget;
+    QFrame* m_dialogFrame;
     QGraphicsProxyWidget* m_dialogItem;
+    QGraphicsProxyWidget* m_dialogBackgroundProxyWidget;
     Ui::BuyDialog* m_ui;
 };
 

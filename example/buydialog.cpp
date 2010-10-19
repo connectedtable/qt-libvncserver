@@ -5,6 +5,7 @@
 #include "buydialog.h"
 #include "ui_buydialog.h"
 
+#include <QFrame>
 #include <QPushButton>
 #include <QPen>
 #include <QSlider>
@@ -14,10 +15,25 @@
 BuyDialog::BuyDialog( QObject* parent ) : QObject( parent )
 {
     m_dialog = new QWidget;
+    m_dialog->setAttribute( Qt::WA_NoSystemBackground );
+
     m_dialogItem = new QGraphicsProxyWidget();
     m_dialogItem->setWidget( m_dialog );
+    m_dialogItem->setZValue( 2 );
+
     m_dialogWidget = new QWidget();
     m_dialogWidget->setObjectName( "DialogWidget" );
+    m_dialogWidget->setAttribute( Qt::WA_NoSystemBackground );
+
+    m_dialogFrame = new QFrame( m_dialogWidget );
+    m_dialogFrame->setObjectName( "DialogFrame" );
+    m_dialogFrame->setFrameStyle( QFrame::StyledPanel );
+    m_dialogFrame->setFrameShadow( QFrame::Raised );
+    m_dialogFrame->setStyleSheet( "background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #FFFFFF, stop: 1 #848383); border-style: outset; border-width: 2px; border-radius: 10px; border-color: beige;" );
+
+    m_dialogBackgroundProxyWidget = new QGraphicsProxyWidget;
+    m_dialogBackgroundProxyWidget->setWidget( m_dialogWidget );
+    m_dialogBackgroundProxyWidget->setZValue( 1 );
 
     m_ui = new Ui::BuyDialog;
     m_ui->setupUi( m_dialog );
@@ -46,18 +62,27 @@ BuyDialog::~BuyDialog()
 
 void BuyDialog::setScene( QGraphicsScene* scene )
 {
+    const QObjectList& widgets = m_dialog->children();
+    for( qint32 i = 0; i < widgets.size(); i++) {
+        QWidget* widget = qobject_cast<QWidget*>( widgets.at( i ) );
+        if ( widget )
+            widget->show();
+    }
     m_dialog->adjustSize();
 
-    QRect sceneRect( scene->sceneRect().toRect() );
-    m_dialogWidget->setGeometry( sceneRect );
+    QSize sceneSize( 1024, 768 );
+    m_dialogWidget->setFixedSize( sceneSize );
     const QSize dialogFrameSize = m_dialog->size();
     qint32 xPosition;
     qint32 yPosition;
-    xPosition = ( sceneRect.width() - dialogFrameSize.width() ) / 2;
-    yPosition = ( sceneRect.height() - dialogFrameSize.height() ) / 2;
+    xPosition = ( sceneSize.width() - dialogFrameSize.width() ) / 2;
+    yPosition = ( sceneSize.height() - dialogFrameSize.height() ) / 2;
     QPoint dialogFramePosition( xPosition, yPosition );
-    m_dialog->setGeometry( QRect( dialogFramePosition, dialogFrameSize ) );
+    m_dialogFrame->setGeometry( QRect( dialogFramePosition, dialogFrameSize ) );
+    m_dialog->setGeometry( m_dialogFrame->geometry() );
+
     scene->addItem( m_dialogItem );
+    scene->addItem( m_dialogBackgroundProxyWidget );
 }
 
 void BuyDialog::slotValueChanged( int )
