@@ -1,0 +1,34 @@
+-- About
+
+qt-libvncserver is a graphics driver for Qt embedded. It uses the library
+LibVNCServer to act as a middle hand instead of the internal vnc plugin
+bundled with Qt.
+
+-- Usage
+
+To compile and install qt-libvncserver
+ * qmake (with a embedded enabled Qt)
+ * make install
+
+To run an application simply add "-qws -display libvnc:0" to command line to
+start a VNC server on port 5900. Increase the number to use different ports.
+libvnc:5 equals port 5905.
+
+Depth and resolution are sent as environmental variables, named QWS_DEPTH and
+QWS_SIZE, such as:
+
+QWS_DEPTH=16 QWS_SIZE=800x600 ./example -qws -display libvnc:0
+
+-- OTP tokens
+
+The library also have support for one time passwords. If the application is 
+started with the enviromental variable TOKEN_PATH the application checks
+for this file on new connects and all data in this file is used as the current
+valid password.
+
+-- Copyright
+
+Copyright (C) 2010, Connected Table AB <info@connectedtable.com>
+
+Some portions of the code comes from the original Qt vnc plugin, and their
+respective copyrights apply of course.
