@@ -448,9 +448,6 @@ void LibVNCServerScreenPrivate::setDirty(const QRect& rect)
 bool LibVNCServerScreen::connect(const QString &displaySpec)
 {
     Q_UNUSED(displaySpec);
-#if Q_BYTE_ORDER == Q_BIG_ENDIAN
-    QScreen::setFrameBufferLittleEndian(false);
-#endif
 
     d = qgetenv("QWS_DEPTH").toInt();
     if (!d)
